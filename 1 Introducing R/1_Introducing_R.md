@@ -9,9 +9,7 @@ Thomas Bryan Smith[^1]
 getwd()
 ```
 
-``` bg-warning
-## [1] "c:/Users/Tom Smith/Documents/GitHub/CJStatsOM/1 Introducing R"
-```
+    ## [1] "c:/Users/Tom Smith/Documents/GitHub/CJStatsOM/1 Introducing R"
 
 ``` r
 # =========================================================================== #
@@ -75,27 +73,21 @@ x <- 8
 print(x)
 ```
 
-``` bg-warning
-## [1] 8
-```
+    ## [1] 8
 
 ``` r
 # This can also be achieved by simply entering the object:
 x
 ```
 
-``` bg-warning
-## [1] 8
-```
+    ## [1] 8
 
 ``` r
 # You can also enter and print the assigned value simultaneously:
 (name <- "Mark")
 ```
 
-``` bg-warning
-## [1] "Mark"
-```
+    ## [1] "Mark"
 
 ``` r
 # Depending on the type of the object,
@@ -103,35 +95,27 @@ x
 x + 2
 ```
 
-``` bg-warning
-## [1] 10
-```
+    ## [1] 10
 
 ``` r
 # These output of these mathematical operations can be assigned:
 (result <- x + 2)
 ```
 
-``` bg-warning
-## [1] 10
-```
+    ## [1] 10
 
 ``` r
 # Then you can continue to work with the new object:
 (result / 2)
 ```
 
-``` bg-warning
-## [1] 5
-```
+    ## [1] 5
 
 ``` r
 (result * 5)
 ```
 
-``` bg-warning
-## [1] 50
-```
+    ## [1] 50
 
 ``` r
 # You can save objects with the save() function:
@@ -143,9 +127,7 @@ save(x, result, file = "myobjects.rda")
 ls()
 ```
 
-``` bg-warning
-## [1] "name"   "result" "x"
-```
+    ## [1] "name"   "result" "x"
 
 ``` r
 # Then the rm() function can be used to remove objects from that workspace:
@@ -158,9 +140,7 @@ rm(list = ls())
 ls()
 ```
 
-``` bg-warning
-## character(0)
-```
+    ## character(0)
 
 ``` r
 # ...and you will not be able to "call" any of these objects:
@@ -173,9 +153,7 @@ load(file = "myobjects.rda")
 ls()
 ```
 
-``` bg-warning
-## [1] "result" "x"
-```
+    ## [1] "result" "x"
 
 ``` r
 # Before moving on, let's wipe the workspace again:
@@ -190,9 +168,7 @@ rm(list = ls())
 (x <- c(1, 2, 3, 4))
 ```
 
-``` bg-warning
-## [1] 1 2 3 4
-```
+    ## [1] 1 2 3 4
 
 ``` r
 # In this case, we can do the same vector by generating a sequence:
@@ -205,34 +181,26 @@ z <- seq(from = 1, to = 4)
 seq(from = 1, to = 10, by = 2)
 ```
 
-``` bg-warning
-## [1] 1 3 5 7 9
-```
+    ## [1] 1 3 5 7 9
 
 ``` r
 # Then the rep() function can be used to generate vectors with repeating values:
 rep(2, times = 10)
 ```
 
-``` bg-warning
-##  [1] 2 2 2 2 2 2 2 2 2 2
-```
+    ##  [1] 2 2 2 2 2 2 2 2 2 2
 
 ``` r
 rep(1:2, times = 10)
 ```
 
-``` bg-warning
-##  [1] 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2
-```
+    ##  [1] 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2
 
 ``` r
 rep(1:2, length.out = 8)
 ```
 
-``` bg-warning
-## [1] 1 2 1 2 1 2 1 2
-```
+    ## [1] 1 2 1 2 1 2 1 2
 
 ``` r
 # Sometimes it can be helpful to create a sequence, starting at 1,
@@ -240,35 +208,27 @@ rep(1:2, length.out = 8)
 (x <- 51:65)
 ```
 
-``` bg-warning
-##  [1] 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65
-```
+    ##  [1] 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65
 
 ``` r
 seq_along(x)
 ```
 
-``` bg-warning
-##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
-```
+    ##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
 
 ``` r
 # Vectors are not always numeric, they can be character vectors:
 (x <- c("Benjamin", "Kathryn", "Jean", "Jonathan"))
 ```
 
-``` bg-warning
-## [1] "Benjamin" "Kathryn"  "Jean"     "Jonathan"
-```
+    ## [1] "Benjamin" "Kathryn"  "Jean"     "Jonathan"
 
 ``` r
 # ...or they can be boolean (TRUE, FALSE) vectors:
 (x <- c(TRUE, FALSE, FALSE, TRUE))
 ```
 
-``` bg-warning
-## [1]  TRUE FALSE FALSE  TRUE
-```
+    ## [1]  TRUE FALSE FALSE  TRUE
 
 ``` r
 # ============================================================================ #
@@ -278,93 +238,71 @@ seq_along(x)
 (x <- 1:4)
 ```
 
-``` bg-warning
-## [1] 1 2 3 4
-```
+    ## [1] 1 2 3 4
 
 ``` r
 (y <- 0:3)
 ```
 
-``` bg-warning
-## [1] 0 1 2 3
-```
+    ## [1] 0 1 2 3
 
 ``` r
 # [1 2 3 4] + 1
 1:4 + 1
 ```
 
-``` bg-warning
-## [1] 2 3 4 5
-```
+    ## [1] 2 3 4 5
 
 ``` r
 x + 1
 ```
 
-``` bg-warning
-## [1] 2 3 4 5
-```
+    ## [1] 2 3 4 5
 
 ``` r
 # [1 2 3 4] + [0 1]
 1:4 + 0:1
 ```
 
-``` bg-warning
-## [1] 1 3 3 5
-```
+    ## [1] 1 3 3 5
 
 ``` r
 x + 0.1
 ```
 
-``` bg-warning
-## [1] 1.1 2.1 3.1 4.1
-```
+    ## [1] 1.1 2.1 3.1 4.1
 
 ``` r
 # [1 2 3 4] + [0 1 2 3]
 1:4 + 0:3
 ```
 
-``` bg-warning
-## [1] 1 3 5 7
-```
+    ## [1] 1 3 5 7
 
 ``` r
 x + y
 ```
 
-``` bg-warning
-## [1] 1 3 5 7
-```
+    ## [1] 1 3 5 7
 
 ``` r
 # These rules also apply to other mathematical operations:
 x - y
 ```
 
-``` bg-warning
-## [1] 1 1 1 1
-```
+    ## [1] 1 1 1 1
 
 ``` r
 x * y
 ```
 
-``` bg-warning
-## [1]  0  2  6 12
-```
+    ## [1]  0  2  6 12
 
 ``` r
 x / y
 ```
 
-``` bg-warning
-## [1]      Inf 2.000000 1.500000 1.333333
-```
+    ## [1]      Inf 2.000000 1.500000 1.333333
 
 ``` r
 # Working with matrices is a little more complicated, and requires
@@ -379,12 +317,10 @@ x / y
 (mat <- matrix(c(0,1,0, 15,18,10, 2,6,0, 126,75,50), nrow = 3))
 ```
 
-``` bg-warning
-##      [,1] [,2] [,3] [,4]
-## [1,]    0   15    2  126
-## [2,]    1   18    6   75
-## [3,]    0   10    0   50
-```
+    ##      [,1] [,2] [,3] [,4]
+    ## [1,]    0   15    2  126
+    ## [2,]    1   18    6   75
+    ## [3,]    0   10    0   50
 
 ``` r
 # Note that the matrix is populated column-by-column. The nrow
@@ -395,13 +331,11 @@ x / y
 (mat <- matrix(c(0,1,0,15, 18,10,2,6, 0,126,75,50), nrow = 4))
 ```
 
-``` bg-warning
-##      [,1] [,2] [,3]
-## [1,]    0   18    0
-## [2,]    1   10  126
-## [3,]    0    2   75
-## [4,]   15    6   50
-```
+    ##      [,1] [,2] [,3]
+    ## [1,]    0   18    0
+    ## [2,]    1   10  126
+    ## [3,]    0    2   75
+    ## [4,]   15    6   50
 
 ``` r
 # ...or, following best practice:
@@ -412,29 +346,23 @@ x / y
                nrow = 3))
 ```
 
-``` bg-warning
-##      [,1] [,2] [,3] [,4]
-## [1,]    0   15    2  126
-## [2,]    1   18    6   75
-## [3,]    0   10    0   50
-```
+    ##      [,1] [,2] [,3] [,4]
+    ## [1,]    0   15    2  126
+    ## [2,]    1   18    6   75
+    ## [3,]    0   10    0   50
 
 ``` r
 # If you want to find the number of rows and columns of the matrix:
 nrow(mat)
 ```
 
-``` bg-warning
-## [1] 3
-```
+    ## [1] 3
 
 ``` r
 ncol(mat)
 ```
 
-``` bg-warning
-## [1] 4
-```
+    ## [1] 4
 
 ``` r
 # The dim() function finds both and outputs them as a vector,
@@ -442,46 +370,36 @@ ncol(mat)
 dim(mat)
 ```
 
-``` bg-warning
-## [1] 3 4
-```
+    ## [1] 3 4
 
 ``` r
 # Remember, the output of ANY function can be assigned to an object:
 (x <- dim(mat))
 ```
 
-``` bg-warning
-## [1] 3 4
-```
+    ## [1] 3 4
 
 ``` r
 # Note that, right now, your matrix has no row and column names:
 mat
 ```
 
-``` bg-warning
-##      [,1] [,2] [,3] [,4]
-## [1,]    0   15    2  126
-## [2,]    1   18    6   75
-## [3,]    0   10    0   50
-```
+    ##      [,1] [,2] [,3] [,4]
+    ## [1,]    0   15    2  126
+    ## [2,]    1   18    6   75
+    ## [3,]    0   10    0   50
 
 ``` r
 rownames(mat)
 ```
 
-``` bg-warning
-## NULL
-```
+    ## NULL
 
 ``` r
 colnames(mat)
 ```
 
-``` bg-warning
-## NULL
-```
+    ## NULL
 
 ``` r
 # You can assign vectors of names to these rows and columns:
@@ -492,12 +410,10 @@ colnames(mat) <- c("sex", "age", "delinquencies", "ses")
 mat
 ```
 
-``` bg-warning
-##          sex age delinquencies ses
-## Benjamin   0  15             2 126
-## Kathryn    1  18             6  75
-## Jonathan   0  10             0  50
-```
+    ##          sex age delinquencies ses
+    ## Benjamin   0  15             2 126
+    ## Kathryn    1  18             6  75
+    ## Jonathan   0  10             0  50
 
 ``` r
 # Using the as.data.frame() function you can convert this matrix
@@ -505,12 +421,10 @@ mat
 as.data.frame(mat)
 ```
 
-``` bg-warning
-##          sex age delinquencies ses
-## Benjamin   0  15             2 126
-## Kathryn    1  18             6  75
-## Jonathan   0  10             0  50
-```
+    ##          sex age delinquencies ses
+    ## Benjamin   0  15             2 126
+    ## Kathryn    1  18             6  75
+    ## Jonathan   0  10             0  50
 
 ``` r
 # However, I would recommend learning to work with
@@ -518,14 +432,12 @@ as.data.frame(mat)
 as_tibble(mat)
 ```
 
-``` bg-warning
-## # A tibble: 3 × 4
-##     sex   age delinquencies   ses
-##   <dbl> <dbl>         <dbl> <dbl>
-## 1     0    15             2   126
-## 2     1    18             6    75
-## 3     0    10             0    50
-```
+    ## # A tibble: 3 × 4
+    ##     sex   age delinquencies   ses
+    ##   <dbl> <dbl>         <dbl> <dbl>
+    ## 1     0    15             2   126
+    ## 2     1    18             6    75
+    ## 3     0    10             0    50
 
 ``` r
 # Let's assign this tibble to an object named 'df':
@@ -572,40 +484,34 @@ read_csv("my_data.csv")
     ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## • `` -> `...1`
 
-``` bg-warning
-## # A tibble: 3 × 6
-##    ...1 name       sex   age delinquencies   ses
-##   <dbl> <chr>    <dbl> <dbl>         <dbl> <dbl>
-## 1     1 Benjamin     0    15             2   126
-## 2     2 Kathryn      1    18             6    75
-## 3     3 Jonathan     0    10             0    50
-```
+    ## # A tibble: 3 × 6
+    ##    ...1 name       sex   age delinquencies   ses
+    ##   <dbl> <chr>    <dbl> <dbl>         <dbl> <dbl>
+    ## 1     1 Benjamin     0    15             2   126
+    ## 2     2 Kathryn      1    18             6    75
+    ## 3     3 Jonathan     0    10             0    50
 
 ``` r
 read_dta("my_data.dta")
 ```
 
-``` bg-warning
-## # A tibble: 3 × 5
-##   name       sex   age delinquencies   ses
-##   <chr>    <dbl> <dbl>         <dbl> <dbl>
-## 1 Benjamin     0    15             2   126
-## 2 Kathryn      1    18             6    75
-## 3 Jonathan     0    10             0    50
-```
+    ## # A tibble: 3 × 5
+    ##   name       sex   age delinquencies   ses
+    ##   <chr>    <dbl> <dbl>         <dbl> <dbl>
+    ## 1 Benjamin     0    15             2   126
+    ## 2 Kathryn      1    18             6    75
+    ## 3 Jonathan     0    10             0    50
 
 ``` r
 read_feather("my_data.feather")
 ```
 
-``` bg-warning
-## # A tibble: 3 × 5
-##   name       sex   age delinquencies   ses
-##   <chr>    <dbl> <dbl>         <dbl> <dbl>
-## 1 Benjamin     0    15             2   126
-## 2 Kathryn      1    18             6    75
-## 3 Jonathan     0    10             0    50
-```
+    ## # A tibble: 3 × 5
+    ##   name       sex   age delinquencies   ses
+    ##   <chr>    <dbl> <dbl>         <dbl> <dbl>
+    ## 1 Benjamin     0    15             2   126
+    ## 2 Kathryn      1    18             6    75
+    ## 3 Jonathan     0    10             0    50
 
 ``` r
 # What have we forgotten to do here? Assign it to an object!
@@ -615,12 +521,10 @@ df <- read.xlsx("my_data.xlsx")
 df
 ```
 
-``` bg-warning
-##       name sex age delinquencies ses
-## 1 Benjamin   0  15             2 126
-## 2  Kathryn   1  18             6  75
-## 3 Jonathan   0  10             0  50
-```
+    ##       name sex age delinquencies ses
+    ## 1 Benjamin   0  15             2 126
+    ## 2  Kathryn   1  18             6  75
+    ## 3 Jonathan   0  10             0  50
 
 ``` r
 # You will need to convert it back into a tibble manually. You can do this
@@ -634,27 +538,23 @@ df <- as_tibble(df)
 read.xlsx("my_data.xlsx") %>% as_tibble()   # tidyverse (magrittr)
 ```
 
-``` bg-warning
-## # A tibble: 3 × 5
-##   name       sex   age delinquencies   ses
-##   <chr>    <dbl> <dbl>         <dbl> <dbl>
-## 1 Benjamin     0    15             2   126
-## 2 Kathryn      1    18             6    75
-## 3 Jonathan     0    10             0    50
-```
+    ## # A tibble: 3 × 5
+    ##   name       sex   age delinquencies   ses
+    ##   <chr>    <dbl> <dbl>         <dbl> <dbl>
+    ## 1 Benjamin     0    15             2   126
+    ## 2 Kathryn      1    18             6    75
+    ## 3 Jonathan     0    10             0    50
 
 ``` r
 read.xlsx("my_data.xlsx") |> as_tibble()    # base R
 ```
 
-``` bg-warning
-## # A tibble: 3 × 5
-##   name       sex   age delinquencies   ses
-##   <chr>    <dbl> <dbl>         <dbl> <dbl>
-## 1 Benjamin     0    15             2   126
-## 2 Kathryn      1    18             6    75
-## 3 Jonathan     0    10             0    50
-```
+    ## # A tibble: 3 × 5
+    ##   name       sex   age delinquencies   ses
+    ##   <chr>    <dbl> <dbl>         <dbl> <dbl>
+    ## 1 Benjamin     0    15             2   126
+    ## 2 Kathryn      1    18             6    75
+    ## 3 Jonathan     0    10             0    50
 
 ``` r
 # Now, let's read the .xlsx file, convert it into a tibble, assign
@@ -662,14 +562,12 @@ read.xlsx("my_data.xlsx") |> as_tibble()    # base R
 (df <- read.xlsx("my_data.xlsx") |> as_tibble())
 ```
 
-``` bg-warning
-## # A tibble: 3 × 5
-##   name       sex   age delinquencies   ses
-##   <chr>    <dbl> <dbl>         <dbl> <dbl>
-## 1 Benjamin     0    15             2   126
-## 2 Kathryn      1    18             6    75
-## 3 Jonathan     0    10             0    50
-```
+    ## # A tibble: 3 × 5
+    ##   name       sex   age delinquencies   ses
+    ##   <chr>    <dbl> <dbl>         <dbl> <dbl>
+    ## 1 Benjamin     0    15             2   126
+    ## 2 Kathryn      1    18             6    75
+    ## 3 Jonathan     0    10             0    50
 
 ``` r
 # ============================================================================ #
@@ -679,63 +577,49 @@ read.xlsx("my_data.xlsx") |> as_tibble()    # base R
 (age <- df$age)
 ```
 
-``` bg-warning
-## [1] 15 18 10
-```
+    ## [1] 15 18 10
 
 ``` r
 # Now, let's check to see if any of the respondents are 18 years old:
 age == 18
 ```
 
-``` bg-warning
-## [1] FALSE  TRUE FALSE
-```
+    ## [1] FALSE  TRUE FALSE
 
 ``` r
 # Are any respondents NOT 18 years old?
 age != 18
 ```
 
-``` bg-warning
-## [1]  TRUE FALSE  TRUE
-```
+    ## [1]  TRUE FALSE  TRUE
 
 ``` r
 # Are any respondents older than 10 years?
 age > 10
 ```
 
-``` bg-warning
-## [1]  TRUE  TRUE FALSE
-```
+    ## [1]  TRUE  TRUE FALSE
 
 ``` r
 # Are any respondents less than or equal to 15 years?
 age <= 15
 ```
 
-``` bg-warning
-## [1]  TRUE FALSE  TRUE
-```
+    ## [1]  TRUE FALSE  TRUE
 
 ``` r
 # Are any respondents less than 12 years OR greater than 17 years?
 age < 12 | age > 17
 ```
 
-``` bg-warning
-## [1] FALSE  TRUE  TRUE
-```
+    ## [1] FALSE  TRUE  TRUE
 
 ``` r
 # Are any respondents greater than 12 AND less than 17?
 age > 12 & age < 17
 ```
 
-``` bg-warning
-## [1]  TRUE FALSE FALSE
-```
+    ## [1]  TRUE FALSE FALSE
 
 ``` r
 # So far, all of these logical operations have produced
@@ -746,9 +630,7 @@ age > 12 & age < 17
 which(age > 12 & age < 17)
 ```
 
-``` bg-warning
-## [1] 1
-```
+    ## [1] 1
 
 ``` r
 # You can invert (negate) these logical operations with a
@@ -756,26 +638,20 @@ which(age > 12 & age < 17)
 !(age > 12 & age < 17)
 ```
 
-``` bg-warning
-## [1] FALSE  TRUE  TRUE
-```
+    ## [1] FALSE  TRUE  TRUE
 
 ``` r
 # This also works if you assign the logical vector:
 (logic <- age > 12 & age < 17)
 ```
 
-``` bg-warning
-## [1]  TRUE FALSE FALSE
-```
+    ## [1]  TRUE FALSE FALSE
 
 ``` r
 !logic
 ```
 
-``` bg-warning
-## [1] FALSE  TRUE  TRUE
-```
+    ## [1] FALSE  TRUE  TRUE
 
 ``` r
 # The %in% logical operator is unique in that it can be used
@@ -785,18 +661,14 @@ which(age > 12 & age < 17)
 20 %in% age
 ```
 
-``` bg-warning
-## [1] FALSE
-```
+    ## [1] FALSE
 
 ``` r
 # What about the number '18'?
 18 %in% age
 ```
 
-``` bg-warning
-## [1] TRUE
-```
+    ## [1] TRUE
 
 ``` r
 # Are any of the values in the age vector also in
@@ -804,9 +676,7 @@ which(age > 12 & age < 17)
 age %in% c(10, 18)
 ```
 
-``` bg-warning
-## [1] FALSE  TRUE  TRUE
-```
+    ## [1] FALSE  TRUE  TRUE
 
 ``` r
 # These logical operators can be combined to create
@@ -814,9 +684,7 @@ age %in% c(10, 18)
 which(!(age %in% c(10, 18)))
 ```
 
-``` bg-warning
-## [1] 1
-```
+    ## [1] 1
 
 ``` r
 # Just make sure you interpret them carefully and correctly!
@@ -829,18 +697,14 @@ which(!(age %in% c(10, 18)))
 as.numeric(age == 18)
 ```
 
-``` bg-warning
-## [1] 0 1 0
-```
+    ## [1] 0 1 0
 
 ``` r
 # So, if you want to count how many respondents fulfill the condition:
 sum(age == 18)
 ```
 
-``` bg-warning
-## [1] 1
-```
+    ## [1] 1
 
 ``` r
 # Or, if you want to find the proportion of respondents who fulfill
@@ -848,27 +712,21 @@ sum(age == 18)
 mean(age == 18)
 ```
 
-``` bg-warning
-## [1] 0.3333333
-```
+    ## [1] 0.3333333
 
 ``` r
 # For a percentage, just multiply by 100:
 mean(age == 18) * 100
 ```
 
-``` bg-warning
-## [1] 33.33333
-```
+    ## [1] 33.33333
 
 ``` r
 # For a rate per 1,000, just multiply by 1,000:
 mean(age == 18) * 1000
 ```
 
-``` bg-warning
-## [1] 333.3333
-```
+    ## [1] 333.3333
 
 ``` r
 # ============================================================================ #
@@ -884,44 +742,40 @@ data("USArrests")
 head(USArrests)
 ```
 
-``` bg-warning
-##            Murder Assault UrbanPop Rape
-## Alabama      13.2     236       58 21.2
-## Alaska       10.0     263       48 44.5
-## Arizona       8.1     294       80 31.0
-## Arkansas      8.8     190       50 19.5
-## California    9.0     276       91 40.6
-## Colorado      7.9     204       78 38.7
-```
+    ##            Murder Assault UrbanPop Rape
+    ## Alabama      13.2     236       58 21.2
+    ## Alaska       10.0     263       48 44.5
+    ## Arizona       8.1     294       80 31.0
+    ## Arkansas      8.8     190       50 19.5
+    ## California    9.0     276       91 40.6
+    ## Colorado      7.9     204       78 38.7
 
 ``` r
 # Let's look at the first 20 observations instead:
 head(USArrests, 20)
 ```
 
-``` bg-warning
-##             Murder Assault UrbanPop Rape
-## Alabama       13.2     236       58 21.2
-## Alaska        10.0     263       48 44.5
-## Arizona        8.1     294       80 31.0
-## Arkansas       8.8     190       50 19.5
-## California     9.0     276       91 40.6
-## Colorado       7.9     204       78 38.7
-## Connecticut    3.3     110       77 11.1
-## Delaware       5.9     238       72 15.8
-## Florida       15.4     335       80 31.9
-## Georgia       17.4     211       60 25.8
-## Hawaii         5.3      46       83 20.2
-## Idaho          2.6     120       54 14.2
-## Illinois      10.4     249       83 24.0
-## Indiana        7.2     113       65 21.0
-## Iowa           2.2      56       57 11.3
-## Kansas         6.0     115       66 18.0
-## Kentucky       9.7     109       52 16.3
-## Louisiana     15.4     249       66 22.2
-## Maine          2.1      83       51  7.8
-## Maryland      11.3     300       67 27.8
-```
+    ##             Murder Assault UrbanPop Rape
+    ## Alabama       13.2     236       58 21.2
+    ## Alaska        10.0     263       48 44.5
+    ## Arizona        8.1     294       80 31.0
+    ## Arkansas       8.8     190       50 19.5
+    ## California     9.0     276       91 40.6
+    ## Colorado       7.9     204       78 38.7
+    ## Connecticut    3.3     110       77 11.1
+    ## Delaware       5.9     238       72 15.8
+    ## Florida       15.4     335       80 31.9
+    ## Georgia       17.4     211       60 25.8
+    ## Hawaii         5.3      46       83 20.2
+    ## Idaho          2.6     120       54 14.2
+    ## Illinois      10.4     249       83 24.0
+    ## Indiana        7.2     113       65 21.0
+    ## Iowa           2.2      56       57 11.3
+    ## Kansas         6.0     115       66 18.0
+    ## Kentucky       9.7     109       52 16.3
+    ## Louisiana     15.4     249       66 22.2
+    ## Maine          2.1      83       51  7.8
+    ## Maryland      11.3     300       67 27.8
 
 ``` r
 # "USArrests" is a little long, so let's reassign it to the "df" object
@@ -931,17 +785,15 @@ df <- USArrests
 head(df)
 ```
 
-``` bg-warning
-##            Murder Assault UrbanPop Rape
-## Alabama      13.2     236       58 21.2
-## Alaska       10.0     263       48 44.5
-## Arizona       8.1     294       80 31.0
-## Arkansas      8.8     190       50 19.5
-## California    9.0     276       91 40.6
-## Colorado      7.9     204       78 38.7
-```
+    ##            Murder Assault UrbanPop Rape
+    ## Alabama      13.2     236       58 21.2
+    ## Alaska       10.0     263       48 44.5
+    ## Arizona       8.1     294       80 31.0
+    ## Arkansas      8.8     190       50 19.5
+    ## California    9.0     276       91 40.6
+    ## Colorado      7.9     204       78 38.7
 
-## 5. Performing Simple Statitical Functions
+## 5. Performing Simple Statistical Functions
 
 ``` r
 # Say we're interested in calculating descriptive statistics for murder.
@@ -950,56 +802,44 @@ murder <- df$Murder
 murder
 ```
 
-``` bg-warning
-##  [1] 13.2 10.0  8.1  8.8  9.0  7.9  3.3  5.9 15.4 17.4  5.3  2.6 10.4  7.2  2.2
-## [16]  6.0  9.7 15.4  2.1 11.3  4.4 12.1  2.7 16.1  9.0  6.0  4.3 12.2  2.1  7.4
-## [31] 11.4 11.1 13.0  0.8  7.3  6.6  4.9  6.3  3.4 14.4  3.8 13.2 12.7  3.2  2.2
-## [46]  8.5  4.0  5.7  2.6  6.8
-```
+    ##  [1] 13.2 10.0  8.1  8.8  9.0  7.9  3.3  5.9 15.4 17.4  5.3  2.6 10.4  7.2  2.2
+    ## [16]  6.0  9.7 15.4  2.1 11.3  4.4 12.1  2.7 16.1  9.0  6.0  4.3 12.2  2.1  7.4
+    ## [31] 11.4 11.1 13.0  0.8  7.3  6.6  4.9  6.3  3.4 14.4  3.8 13.2 12.7  3.2  2.2
+    ## [46]  8.5  4.0  5.7  2.6  6.8
 
 ``` r
 # Median
 median(murder)
 ```
 
-``` bg-warning
-## [1] 7.25
-```
+    ## [1] 7.25
 
 ``` r
 # Mean
 mean(murder)
 ```
 
-``` bg-warning
-## [1] 7.788
-```
+    ## [1] 7.788
 
 ``` r
 # Standard Deviation
 sd(murder)
 ```
 
-``` bg-warning
-## [1] 4.35551
-```
+    ## [1] 4.35551
 
 ``` r
 # Minimum and Maximum
 min(murder)
 ```
 
-``` bg-warning
-## [1] 0.8
-```
+    ## [1] 0.8
 
 ``` r
 max(murder)
 ```
 
-``` bg-warning
-## [1] 17.4
-```
+    ## [1] 17.4
 
 ``` r
 # Frequency Tables
@@ -1008,22 +848,18 @@ sex <- c(rep("male", 15), rep("female", 8))
 sex
 ```
 
-``` bg-warning
-##  [1] "male"   "male"   "male"   "male"   "male"   "male"   "male"   "male"  
-##  [9] "male"   "male"   "male"   "male"   "male"   "male"   "male"   "female"
-## [17] "female" "female" "female" "female" "female" "female" "female"
-```
+    ##  [1] "male"   "male"   "male"   "male"   "male"   "male"   "male"   "male"  
+    ##  [9] "male"   "male"   "male"   "male"   "male"   "male"   "male"   "female"
+    ## [17] "female" "female" "female" "female" "female" "female" "female"
 
 ``` r
 ## Now let's tabulate the results:
 table(sex)
 ```
 
-``` bg-warning
-## sex
-## female   male 
-##      8     15
-```
+    ## sex
+    ## female   male 
+    ##      8     15
 
 ``` r
 # Missing Data
@@ -1033,21 +869,17 @@ murder <- c(murder, rep(NA, 5))
 murder
 ```
 
-``` bg-warning
-##  [1] 13.2 10.0  8.1  8.8  9.0  7.9  3.3  5.9 15.4 17.4  5.3  2.6 10.4  7.2  2.2
-## [16]  6.0  9.7 15.4  2.1 11.3  4.4 12.1  2.7 16.1  9.0  6.0  4.3 12.2  2.1  7.4
-## [31] 11.4 11.1 13.0  0.8  7.3  6.6  4.9  6.3  3.4 14.4  3.8 13.2 12.7  3.2  2.2
-## [46]  8.5  4.0  5.7  2.6  6.8   NA   NA   NA   NA   NA
-```
+    ##  [1] 13.2 10.0  8.1  8.8  9.0  7.9  3.3  5.9 15.4 17.4  5.3  2.6 10.4  7.2  2.2
+    ## [16]  6.0  9.7 15.4  2.1 11.3  4.4 12.1  2.7 16.1  9.0  6.0  4.3 12.2  2.1  7.4
+    ## [31] 11.4 11.1 13.0  0.8  7.3  6.6  4.9  6.3  3.4 14.4  3.8 13.2 12.7  3.2  2.2
+    ## [46]  8.5  4.0  5.7  2.6  6.8   NA   NA   NA   NA   NA
 
 ``` r
 # Now let's try to calculate the mean again:
 mean(murder)
 ```
 
-``` bg-warning
-## [1] NA
-```
+    ## [1] NA
 
 ``` r
 # It doesn't work! You have to tell R whether or not to remove
@@ -1059,9 +891,7 @@ mean(murder)
 mean(murder, na.rm = TRUE)
 ```
 
-``` bg-warning
-## [1] 7.788
-```
+    ## [1] 7.788
 
 ``` r
 # Similarly, R does not know how to perform logical functions
@@ -1069,101 +899,79 @@ mean(murder, na.rm = TRUE)
 murder > 5
 ```
 
-``` bg-warning
-##  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE
-## [13]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
-## [25]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
-## [37] FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE  TRUE
-## [49] FALSE  TRUE    NA    NA    NA    NA    NA
-```
+    ##  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE
+    ## [13]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+    ## [25]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+    ## [37] FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE  TRUE
+    ## [49] FALSE  TRUE    NA    NA    NA    NA    NA
 
 ``` r
 # You can check for NA's using the is.na() logical function:
 is.na(murder)
 ```
 
-``` bg-warning
-##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [49] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
-```
+    ##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+    ## [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+    ## [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+    ## [37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+    ## [49] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
 
 ``` r
 # Counting missingness in the variable:
 sum(is.na(murder))
 ```
 
-``` bg-warning
-## [1] 5
-```
+    ## [1] 5
 
 ``` r
 murder |> is.na() |> sum()
 ```
 
-``` bg-warning
-## [1] 5
-```
+    ## [1] 5
 
 ``` r
 murder %>% is.na %>% sum
 ```
 
-``` bg-warning
-## [1] 5
-```
+    ## [1] 5
 
 ``` r
 # Proportion of missingness in the variable:
 mean(is.na(murder))
 ```
 
-``` bg-warning
-## [1] 0.09090909
-```
+    ## [1] 0.09090909
 
 ``` r
 murder |> is.na() |> mean()
 ```
 
-``` bg-warning
-## [1] 0.09090909
-```
+    ## [1] 0.09090909
 
 ``` r
 murder %>% is.na %>% mean
 ```
 
-``` bg-warning
-## [1] 0.09090909
-```
+    ## [1] 0.09090909
 
 ``` r
 # Percent missingness:
 mean(is.na(murder)) * 100
 ```
 
-``` bg-warning
-## [1] 9.090909
-```
+    ## [1] 9.090909
 
 ``` r
 (murder |> is.na() |> mean()) * 100
 ```
 
-``` bg-warning
-## [1] 9.090909
-```
+    ## [1] 9.090909
 
 ``` r
 (murder %>% is.na %>% mean) * 100
 ```
 
-``` bg-warning
-## [1] 9.090909
-```
+    ## [1] 9.090909
 
 ## 6. Creating Custom Functions
 
@@ -1179,12 +987,10 @@ mean(is.na(murder)) * 100
 mean
 ```
 
-``` bg-warning
-## function (x, ...) 
-## UseMethod("mean")
-## <bytecode: 0x000001d825da6f10>
-## <environment: namespace:base>
-```
+    ## function (x, ...) 
+    ## UseMethod("mean")
+    ## <bytecode: 0x000001fb9ef52af0>
+    ## <environment: namespace:base>
 
 ``` r
 # If this looks like nonsense to you, don't worry, it should.
@@ -1206,9 +1012,7 @@ mymean <- function(input, rm_na = FALSE) {
 mymean(murder)
 ```
 
-``` bg-warning
-## [1] NA
-```
+    ## [1] NA
 
 ``` r
 # Oops! Forgot to remove missing values with the "rm_na" option
@@ -1216,36 +1020,30 @@ mymean(murder)
 mymean(murder, rm_na = TRUE)
 ```
 
-``` bg-warning
-## [1] 7.788
-```
+    ## [1] 7.788
 
 ``` r
 # Compare to the native function:
 mean(murder, na.rm = TRUE)
 ```
 
-``` bg-warning
-## [1] 7.788
-```
+    ## [1] 7.788
 
 ``` r
 # Then, if we want to print our function in the console:
 mymean
 ```
 
-``` bg-warning
-## function(input, rm_na = FALSE) {
-##   x <- sum(input, na.rm = rm_na)
-##   if (rm_na == TRUE){
-##     y <- sum(!is.na(input))
-##   } else {
-##     y <- length(input)
-##   }
-##   result <- x / y
-##   return(result)
-## }
-## <bytecode: 0x000001d82993f928>
-```
+    ## function(input, rm_na = FALSE) {
+    ##   x <- sum(input, na.rm = rm_na)
+    ##   if (rm_na == TRUE){
+    ##     y <- sum(!is.na(input))
+    ##   } else {
+    ##     y <- length(input)
+    ##   }
+    ##   result <- x / y
+    ##   return(result)
+    ## }
+    ## <bytecode: 0x000001fba2934028>
 
 [^1]: University of Mississippi, <tbsmit10@olemiss.edu>
