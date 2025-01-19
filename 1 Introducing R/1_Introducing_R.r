@@ -1,3 +1,5 @@
+# Title: Introducing R
+# Subtitle: CJ 702 Advanced Criminal Justice Statistics
 # Author: Thomas Bryan Smith <tbsmit10@olemiss.edu>
 # GitHub: thomasbryansmith/CJStatsOM
 #
