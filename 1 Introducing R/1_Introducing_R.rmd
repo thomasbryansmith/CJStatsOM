@@ -1,0 +1,47 @@
+---
+title: "Introducing R"
+subtitle: "CJ 702: Advanced Criminal Justice Statistics"
+author: 
+    - Thomas Bryan Smith^[University of Mississippi, tbsmit10@olemiss.edu]
+output: github_document
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::read_chunk("1_Introducing_R.r")
+```
+
+
+## 1. Working Directories and Libraries
+
+```{r wd_lib, class.output="bg-warning"}
+```
+
+
+## 2. Objects
+
+```{r objects, class.output="bg-warning"}
+```
+
+
+## 3. Vectors and Matrices
+
+```{r vec_mat, class.output="bg-warning"}
+```
+
+
+## 4. Logical Operations
+
+```{r rsd_lop, class.output="bg-warning"}
+```
+
+
+## 5. Performing Simple Statitical Functions
+
+```{r stats, class.output="bg-warning"}
+```
+
+
+## 6. Creating Custom Functions
+
+```{r functions, class.output="bg-warning"}
+```

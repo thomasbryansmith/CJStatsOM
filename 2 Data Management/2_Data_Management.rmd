@@ -1,0 +1,13 @@
+---
+title: "Data Management"
+subtitle: "CJ 702: Advanced Criminal Justice Statistics"
+author:
+    - Thomas Bryan Smith^[University of Mississippi, tbsmit10@olemiss.edu]
+output: github_document
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::read_chunk("2_Data_Management.r")
+```
+
+## 1. 
