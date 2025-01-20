@@ -62,6 +62,16 @@ incident <- readRDS("./Data/incident.rds")
 ### WGTVIC: Victimization Weight
 ### SERIESWGT: Series Weight
 
+# Before we move on, let's quickly just view these three datasets:
+## Household
+head(household)
+
+## Person
+head(person)
+
+## Incident
+head(incident)
+
 ## ---- end_import
 
 ############################################################################## #
