@@ -439,11 +439,8 @@ person$EDUC <- factor(person$EDUC, levels = c("NHSE",
                                               "MA",
                                               "PHD"))
 
-# Now, I'll output a sample of this data frame into the next module's
-# Data folder, so we can use it when practicing
-# Descriptive Statistics and Graphics:
+# Now, I'll output a sample of this data frame into the next module's Data
+# folder, so we can use it when practicing Descriptive Statistics and Graphics:
 # saveRDS(person, "../3 Descriptive Statistics and Graphics/Data/person.rds")
-
-person[sample(nrow(person), 100), ]
 
 ## ---- end_weigh

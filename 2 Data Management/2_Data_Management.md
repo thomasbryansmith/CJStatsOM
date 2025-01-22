@@ -946,29 +946,9 @@ person$EDUC <- factor(person$EDUC, levels = c("NHSE",
                                               "MA",
                                               "PHD"))
 
-# Now, I'll output a sample of this data frame into the next module's
-# Data folder, so we can use it when practicing
-# Descriptive Statistics and Graphics:
+# Now, I'll output a sample of this data frame into the next module's Data
+# folder, so we can use it when practicing Descriptive Statistics and Graphics:
 # saveRDS(person, "../3 Descriptive Statistics and Graphics/Data/person.rds")
-
-person[sample(nrow(person), 100), ]
 ```
-
-    ## # A tibble: 100 × 18
-    ##     YEAR YEARQ IDPER      IDHH  V3014 V3018 V3020 WGTPER    YIH WGTVIC_V VIOLENT
-    ##    <dbl> <fct> <fct>      <fct> <fct> <fct> <fct>  <dbl>  <dbl>    <dbl>   <dbl>
-    ##  1  2004 044   2004635137 2004… 60+   Male  Prof…  1155. 25           NA       0
-    ##  2  2004 042   2004370855 2004… 50-59 Fema… High…  1676. 28           NA       0
-    ##  3  2012 124   2012770209 2012… 30-34 Fema… 12th…  1308.  2           NA       0
-    ##  4  2011 111   2011936654 2011… 50-59 Fema… Mast…  1313.  0.167       NA       0
-    ##  5  2014 143   2014881924 2014… 35-39 Fema… Asso…  1471.  2           NA       0
-    ##  6  2001 012   2001921784 2001… 12-17 Fema… Elem…  1226.  2           NA       0
-    ##  7  2007 072   2007911398 2007… 40-49 Male  Bach…   617.  9           NA       0
-    ##  8  2008 084   2008829365 2008… 30-34 Fema… Some…  1970.  2           NA       0
-    ##  9  2015 153   2015189481 2015… 40-49 Male  Asso…  2168.  8           NA       0
-    ## 10  2000 002   2000323877 2000… 30-34 Male  High…  1468.  3           NA       0
-    ## # ℹ 90 more rows
-    ## # ℹ 7 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>, ADJINC_WT_V <dbl>,
-    ## #   VLNT_WGT_V <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT_V <dbl>, EDUC <fct>
 
 [^1]: University of Mississippi, <tbsmit10@olemiss.edu>
