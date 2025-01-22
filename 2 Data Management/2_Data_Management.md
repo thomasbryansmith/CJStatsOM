@@ -87,15 +87,15 @@ head(household)
 head(person)
 ```
 
-    ## # A tibble: 6 × 8
-    ##    YEAR YEARQ IDPER      IDHH       V3014 V3018  V3020       WGTPER
-    ##   <dbl> <fct> <fct>      <fct>      <fct> <fct>  <fct>        <dbl>
-    ## 1  2000 001   2000966984 2000993788 40-49 Male   College      1063.
-    ## 2  2000 001   2000951294 2000993788 40-49 Female College       894.
-    ## 3  2000 001   2000470356 2000993788 12-17 Male   Elementary   1317.
-    ## 4  2000 001   2000205990 2000167846 35-39 Male   College      1093.
-    ## 5  2000 001   2000361146 2000167846 30-34 Female College      1101.
-    ## 6  2000 001   2000879996 2000733306 40-49 Male   High school  1063.
+    ## # A tibble: 6 × 9
+    ##    YEAR YEARQ IDPER      IDHH       V3014 V3018  V3020       WGTPER   YIH
+    ##   <dbl> <fct> <fct>      <fct>      <fct> <fct>  <fct>        <dbl> <dbl>
+    ## 1  2000 001   2000966984 2000993788 40-49 Male   College      1063.    10
+    ## 2  2000 001   2000951294 2000993788 40-49 Female College       894.     9
+    ## 3  2000 001   2000470356 2000993788 12-17 Male   Elementary   1317.     9
+    ## 4  2000 001   2000205990 2000167846 35-39 Male   College      1093.     4
+    ## 5  2000 001   2000361146 2000167846 30-34 Female College      1101.     4
+    ## 6  2000 001   2000879996 2000733306 40-49 Male   High school  1063.     6
 
 ``` r
 ## Incident
@@ -779,7 +779,9 @@ df %>% head()
 
 # First, let's create a binary indicator of violent victimization:
 incident <- incident %>%
-  mutate(VIOLENT = as.numeric(TOC_RECODE) %in% 1:11)
+  mutate(VIOLENT = as.numeric(TOC_RECODE) %in% 1:11,
+         NONVIOLENT = !(as.numeric(TOC_RECODE) %in% 1:11),
+         TYPE = ifelse(VIOLENT, "Violent", "Nonviolent"))
 
 # Next, we need to (a) filter the incident data to only include violent
 # victimizations, (b) group by person ID (and year/quarter), and
@@ -787,7 +789,7 @@ incident <- incident %>%
 (vbl <- incident %>%
    filter(VIOLENT) %>%
    group_by(YEARQ, IDPER) %>%
-   summarise(WGTVIC = mean(WGTVIC),
+   summarise(WGTVIC_V = mean(WGTVIC),
              VIOLENT = sum(VIOLENT * SERIESWGT)))
 ```
 
@@ -796,19 +798,46 @@ incident <- incident %>%
 
     ## # A tibble: 262 × 4
     ## # Groups:   YEARQ [63]
-    ##    YEARQ IDPER      WGTVIC VIOLENT
-    ##    <fct> <fct>       <dbl>   <dbl>
-    ##  1 001   2000203259  1634.       1
-    ##  2 001   2000324505  1886.       1
-    ##  3 001   2000361146  2202.       1
-    ##  4 001   2000486531  1694.       1
-    ##  5 001   2000585923  3415.       1
-    ##  6 001   2000638577  3165.       1
-    ##  7 001   2000640200  3011.       1
-    ##  8 001   2000664422  1626.       1
-    ##  9 001   2000713056  2494.       1
-    ## 10 001   2000778432  2423.       1
+    ##    YEARQ IDPER      WGTVIC_V VIOLENT
+    ##    <fct> <fct>         <dbl>   <dbl>
+    ##  1 001   2000203259    1634.       1
+    ##  2 001   2000324505    1886.       1
+    ##  3 001   2000361146    2202.       1
+    ##  4 001   2000486531    1694.       1
+    ##  5 001   2000585923    3415.       1
+    ##  6 001   2000638577    3165.       1
+    ##  7 001   2000640200    3011.       1
+    ##  8 001   2000664422    1626.       1
+    ##  9 001   2000713056    2494.       1
+    ## 10 001   2000778432    2423.       1
     ## # ℹ 252 more rows
+
+``` r
+(nvbl <- incident %>%
+   filter(NONVIOLENT) %>%
+   group_by(YEARQ, IDPER) %>%
+   summarise(WGTVIC_NV = mean(WGTVIC),
+             NONVIOLENT = sum(NONVIOLENT * SERIESWGT)))
+```
+
+    ## `summarise()` has grouped output by 'YEARQ'. You can override using the
+    ## `.groups` argument.
+
+    ## # A tibble: 1,376 × 4
+    ## # Groups:   YEARQ [64]
+    ##    YEARQ IDPER      WGTVIC_NV NONVIOLENT
+    ##    <fct> <fct>          <dbl>      <dbl>
+    ##  1 001   2000126695     1975.          1
+    ##  2 001   2000220530     1893.          1
+    ##  3 001   2000264479     3186.          1
+    ##  4 001   2000276410     1612.          2
+    ##  5 001   2000292627     1590.          1
+    ##  6 001   2000335184     1673.          1
+    ##  7 001   2000339862     1629.          2
+    ##  8 001   2000345273     1913.          1
+    ##  9 001   2000365150     2104.          1
+    ## 10 001   2000387989     3395.          1
+    ## # ℹ 1,366 more rows
 
 ``` r
 # Now, let's merge this violent victimization variable onto the
@@ -816,23 +845,26 @@ incident <- incident %>%
 # the variables you want to match with the "by" option:
 (person <- person %>%
    left_join(vbl, by = c("YEARQ", "IDPER")) %>%
-   mutate(VIOLENT = if_else(is.na(VIOLENT), 0, VIOLENT)))
+   left_join(nvbl, by = c("YEARQ", "IDPER")) %>%
+   mutate(VIOLENT = if_else(is.na(VIOLENT), 0, VIOLENT),
+          NONVIOLENT = if_else(is.na(NONVIOLENT), 0, NONVIOLENT)))
 ```
 
-    ## # A tibble: 45,776 × 10
-    ##     YEAR YEARQ IDPER      IDHH       V3014 V3018  V3020    WGTPER WGTVIC VIOLENT
-    ##    <dbl> <fct> <fct>      <fct>      <fct> <fct>  <fct>     <dbl>  <dbl>   <dbl>
-    ##  1  2000 001   2000966984 2000993788 40-49 Male   College   1063.    NA        0
-    ##  2  2000 001   2000951294 2000993788 40-49 Female College    894.    NA        0
-    ##  3  2000 001   2000470356 2000993788 12-17 Male   Element…  1317.    NA        0
-    ##  4  2000 001   2000205990 2000167846 35-39 Male   College   1093.    NA        0
-    ##  5  2000 001   2000361146 2000167846 30-34 Female College   1101.  2202.       1
-    ##  6  2000 001   2000879996 2000733306 40-49 Male   High sc…  1063.    NA        0
-    ##  7  2000 001   2000840437 2000733306 40-49 Female High sc…   894.    NA        0
-    ##  8  2000 001   2000494053 2000111147 35-39 Male   High sc…  1098.    NA        0
-    ##  9  2000 001   2000833192 2000111147 40-49 Female High sc…   899.    NA        0
-    ## 10  2000 001   2000365150 2000514983 30-34 Female High sc…  1101.    NA        0
+    ## # A tibble: 45,776 × 13
+    ##     YEAR YEARQ IDPER      IDHH   V3014 V3018 V3020 WGTPER   YIH WGTVIC_V VIOLENT
+    ##    <dbl> <fct> <fct>      <fct>  <fct> <fct> <fct>  <dbl> <dbl>    <dbl>   <dbl>
+    ##  1  2000 001   2000966984 20009… 40-49 Male  Coll…  1063.    10      NA        0
+    ##  2  2000 001   2000951294 20009… 40-49 Fema… Coll…   894.     9      NA        0
+    ##  3  2000 001   2000470356 20009… 12-17 Male  Elem…  1317.     9      NA        0
+    ##  4  2000 001   2000205990 20001… 35-39 Male  Coll…  1093.     4      NA        0
+    ##  5  2000 001   2000361146 20001… 30-34 Fema… Coll…  1101.     4    2202.       1
+    ##  6  2000 001   2000879996 20007… 40-49 Male  High…  1063.     6      NA        0
+    ##  7  2000 001   2000840437 20007… 40-49 Fema… High…   894.     6      NA        0
+    ##  8  2000 001   2000494053 20001… 35-39 Male  High…  1098.    11      NA        0
+    ##  9  2000 001   2000833192 20001… 40-49 Fema… High…   899.    11      NA        0
+    ## 10  2000 001   2000365150 20005… 30-34 Fema… High…  1101.     8      NA        0
     ## # ℹ 45,766 more rows
+    ## # ℹ 2 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>
 
 ``` r
 # Calculate the adjusted victimization adjustment factor (weights)
@@ -840,29 +872,103 @@ incident <- incident %>%
 # the violent victimization variable (VIOLENT) to create a
 # weighted violent victimization (VLNT_WGT) variable:
 (person <- person %>%
-   mutate(ADJINC_WT = if_else(!is.na(WGTVIC), WGTVIC / WGTPER, 0),
-          VLNT_WGT = VIOLENT * ADJINC_WT))
+   mutate(ADJINC_WT_V = if_else(!is.na(WGTVIC_V), WGTVIC_V / WGTPER, 0),
+          VLNT_WGT_V = VIOLENT * ADJINC_WT_V,
+          ADJINC_WT_NV = if_else(!is.na(WGTVIC_NV), WGTVIC_NV / WGTPER, 0),
+          NVLNT_WGT_V = NONVIOLENT * ADJINC_WT_NV))
 ```
 
-    ## # A tibble: 45,776 × 12
-    ##     YEAR YEARQ IDPER     IDHH  V3014 V3018 V3020 WGTPER WGTVIC VIOLENT ADJINC_WT
-    ##    <dbl> <fct> <fct>     <fct> <fct> <fct> <fct>  <dbl>  <dbl>   <dbl>     <dbl>
-    ##  1  2000 001   20009669… 2000… 40-49 Male  Coll…  1063.    NA        0         0
-    ##  2  2000 001   20009512… 2000… 40-49 Fema… Coll…   894.    NA        0         0
-    ##  3  2000 001   20004703… 2000… 12-17 Male  Elem…  1317.    NA        0         0
-    ##  4  2000 001   20002059… 2000… 35-39 Male  Coll…  1093.    NA        0         0
-    ##  5  2000 001   20003611… 2000… 30-34 Fema… Coll…  1101.  2202.       1         2
-    ##  6  2000 001   20008799… 2000… 40-49 Male  High…  1063.    NA        0         0
-    ##  7  2000 001   20008404… 2000… 40-49 Fema… High…   894.    NA        0         0
-    ##  8  2000 001   20004940… 2000… 35-39 Male  High…  1098.    NA        0         0
-    ##  9  2000 001   20008331… 2000… 40-49 Fema… High…   899.    NA        0         0
-    ## 10  2000 001   20003651… 2000… 30-34 Fema… High…  1101.    NA        0         0
+    ## # A tibble: 45,776 × 17
+    ##     YEAR YEARQ IDPER      IDHH   V3014 V3018 V3020 WGTPER   YIH WGTVIC_V VIOLENT
+    ##    <dbl> <fct> <fct>      <fct>  <fct> <fct> <fct>  <dbl> <dbl>    <dbl>   <dbl>
+    ##  1  2000 001   2000966984 20009… 40-49 Male  Coll…  1063.    10      NA        0
+    ##  2  2000 001   2000951294 20009… 40-49 Fema… Coll…   894.     9      NA        0
+    ##  3  2000 001   2000470356 20009… 12-17 Male  Elem…  1317.     9      NA        0
+    ##  4  2000 001   2000205990 20001… 35-39 Male  Coll…  1093.     4      NA        0
+    ##  5  2000 001   2000361146 20001… 30-34 Fema… Coll…  1101.     4    2202.       1
+    ##  6  2000 001   2000879996 20007… 40-49 Male  High…  1063.     6      NA        0
+    ##  7  2000 001   2000840437 20007… 40-49 Fema… High…   894.     6      NA        0
+    ##  8  2000 001   2000494053 20001… 35-39 Male  High…  1098.    11      NA        0
+    ##  9  2000 001   2000833192 20001… 40-49 Fema… High…   899.    11      NA        0
+    ## 10  2000 001   2000365150 20005… 30-34 Fema… High…  1101.     8      NA        0
     ## # ℹ 45,766 more rows
-    ## # ℹ 1 more variable: VLNT_WGT <dbl>
+    ## # ℹ 6 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>, ADJINC_WT_V <dbl>,
+    ## #   VLNT_WGT_V <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT_V <dbl>
 
 ``` r
 # Now we can use the VLNT_WGT to calculate a weighted average
 # of the victimization count, or to ensure that
+
+# We might want to quickly recode a variable so that it is more
+# in line with our own operationalization for a project, or
+# satisfies more statistical assumptions (e.g., normality):
+(person <- person %>%
+  mutate(EDUC = case_when(
+    V3020 %in% c("Nev/kindergarten",
+                 "Elementary") ~ "NHSE",
+
+    V3020 %in% c("High school",
+                 "12th grade (no diploma)",
+                 "High school graduate (diploma or equivalent)") ~ "HSE",
+
+    V3020 %in% c("Some college (no degree)",
+                 "College",
+                 "Bachelor degree") ~ "FE",
+
+    V3020 %in% c("Master degree",
+                 "Prof school degree") ~ "MA",
+
+    V3020 %in% c("Doctorate degree") ~ "PHD",
+  )))
 ```
+
+    ## # A tibble: 45,776 × 18
+    ##     YEAR YEARQ IDPER      IDHH   V3014 V3018 V3020 WGTPER   YIH WGTVIC_V VIOLENT
+    ##    <dbl> <fct> <fct>      <fct>  <fct> <fct> <fct>  <dbl> <dbl>    <dbl>   <dbl>
+    ##  1  2000 001   2000966984 20009… 40-49 Male  Coll…  1063.    10      NA        0
+    ##  2  2000 001   2000951294 20009… 40-49 Fema… Coll…   894.     9      NA        0
+    ##  3  2000 001   2000470356 20009… 12-17 Male  Elem…  1317.     9      NA        0
+    ##  4  2000 001   2000205990 20001… 35-39 Male  Coll…  1093.     4      NA        0
+    ##  5  2000 001   2000361146 20001… 30-34 Fema… Coll…  1101.     4    2202.       1
+    ##  6  2000 001   2000879996 20007… 40-49 Male  High…  1063.     6      NA        0
+    ##  7  2000 001   2000840437 20007… 40-49 Fema… High…   894.     6      NA        0
+    ##  8  2000 001   2000494053 20001… 35-39 Male  High…  1098.    11      NA        0
+    ##  9  2000 001   2000833192 20001… 40-49 Fema… High…   899.    11      NA        0
+    ## 10  2000 001   2000365150 20005… 30-34 Fema… High…  1101.     8      NA        0
+    ## # ℹ 45,766 more rows
+    ## # ℹ 7 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>, ADJINC_WT_V <dbl>,
+    ## #   VLNT_WGT_V <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT_V <dbl>, EDUC <chr>
+
+``` r
+person$EDUC <- factor(person$EDUC, levels = c("NHSE",
+                                              "HSE",
+                                              "FE",
+                                              "MA",
+                                              "PHD"))
+
+# Now, I'll output a sample of this data frame into the next module's
+# Data folder, so we can use it when practicing
+# Descriptive Statistics and Graphics:
+# saveRDS(person, "../3 Descriptive Statistics and Graphics/Data/person.rds")
+
+person[sample(nrow(person), 100), ]
+```
+
+    ## # A tibble: 100 × 18
+    ##     YEAR YEARQ IDPER      IDHH  V3014 V3018 V3020 WGTPER    YIH WGTVIC_V VIOLENT
+    ##    <dbl> <fct> <fct>      <fct> <fct> <fct> <fct>  <dbl>  <dbl>    <dbl>   <dbl>
+    ##  1  2004 044   2004635137 2004… 60+   Male  Prof…  1155. 25           NA       0
+    ##  2  2004 042   2004370855 2004… 50-59 Fema… High…  1676. 28           NA       0
+    ##  3  2012 124   2012770209 2012… 30-34 Fema… 12th…  1308.  2           NA       0
+    ##  4  2011 111   2011936654 2011… 50-59 Fema… Mast…  1313.  0.167       NA       0
+    ##  5  2014 143   2014881924 2014… 35-39 Fema… Asso…  1471.  2           NA       0
+    ##  6  2001 012   2001921784 2001… 12-17 Fema… Elem…  1226.  2           NA       0
+    ##  7  2007 072   2007911398 2007… 40-49 Male  Bach…   617.  9           NA       0
+    ##  8  2008 084   2008829365 2008… 30-34 Fema… Some…  1970.  2           NA       0
+    ##  9  2015 153   2015189481 2015… 40-49 Male  Asso…  2168.  8           NA       0
+    ## 10  2000 002   2000323877 2000… 30-34 Male  High…  1468.  3           NA       0
+    ## # ℹ 90 more rows
+    ## # ℹ 7 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>, ADJINC_WT_V <dbl>,
+    ## #   VLNT_WGT_V <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT_V <dbl>, EDUC <fct>
 
 [^1]: University of Mississippi, <tbsmit10@olemiss.edu>

@@ -370,7 +370,9 @@ df %>% head()
 
 # First, let's create a binary indicator of violent victimization:
 incident <- incident %>%
-  mutate(VIOLENT = as.numeric(TOC_RECODE) %in% 1:11)
+  mutate(VIOLENT = as.numeric(TOC_RECODE) %in% 1:11,
+         NONVIOLENT = !(as.numeric(TOC_RECODE) %in% 1:11),
+         TYPE = ifelse(VIOLENT, "Violent", "Nonviolent"))
 
 # Next, we need to (a) filter the incident data to only include violent
 # victimizations, (b) group by person ID (and year/quarter), and
@@ -378,25 +380,70 @@ incident <- incident %>%
 (vbl <- incident %>%
    filter(VIOLENT) %>%
    group_by(YEARQ, IDPER) %>%
-   summarise(WGTVIC = mean(WGTVIC),
+   summarise(WGTVIC_V = mean(WGTVIC),
              VIOLENT = sum(VIOLENT * SERIESWGT)))
+
+(nvbl <- incident %>%
+   filter(NONVIOLENT) %>%
+   group_by(YEARQ, IDPER) %>%
+   summarise(WGTVIC_NV = mean(WGTVIC),
+             NONVIOLENT = sum(NONVIOLENT * SERIESWGT)))
 
 # Now, let's merge this violent victimization variable onto the
 # person-level data. To do this, you use left_join() and specify
 # the variables you want to match with the "by" option:
 (person <- person %>%
    left_join(vbl, by = c("YEARQ", "IDPER")) %>%
-   mutate(VIOLENT = if_else(is.na(VIOLENT), 0, VIOLENT)))
+   left_join(nvbl, by = c("YEARQ", "IDPER")) %>%
+   mutate(VIOLENT = if_else(is.na(VIOLENT), 0, VIOLENT),
+          NONVIOLENT = if_else(is.na(NONVIOLENT), 0, NONVIOLENT)))
 
 # Calculate the adjusted victimization adjustment factor (weights)
 # per the NCVS codebook. Multiply this adjustment factor by
 # the violent victimization variable (VIOLENT) to create a
 # weighted violent victimization (VLNT_WGT) variable:
 (person <- person %>%
-   mutate(ADJINC_WT = if_else(!is.na(WGTVIC), WGTVIC / WGTPER, 0),
-          VLNT_WGT = VIOLENT * ADJINC_WT))
+   mutate(ADJINC_WT_V = if_else(!is.na(WGTVIC_V), WGTVIC_V / WGTPER, 0),
+          VLNT_WGT_V = VIOLENT * ADJINC_WT_V,
+          ADJINC_WT_NV = if_else(!is.na(WGTVIC_NV), WGTVIC_NV / WGTPER, 0),
+          NVLNT_WGT_V = NONVIOLENT * ADJINC_WT_NV))
 
 # Now we can use the VLNT_WGT to calculate a weighted average
 # of the victimization count, or to ensure that
+
+# We might want to quickly recode a variable so that it is more
+# in line with our own operationalization for a project, or
+# satisfies more statistical assumptions (e.g., normality):
+(person <- person %>%
+  mutate(EDUC = case_when(
+    V3020 %in% c("Nev/kindergarten",
+                 "Elementary") ~ "NHSE",
+
+    V3020 %in% c("High school",
+                 "12th grade (no diploma)",
+                 "High school graduate (diploma or equivalent)") ~ "HSE",
+
+    V3020 %in% c("Some college (no degree)",
+                 "College",
+                 "Bachelor degree") ~ "FE",
+
+    V3020 %in% c("Master degree",
+                 "Prof school degree") ~ "MA",
+
+    V3020 %in% c("Doctorate degree") ~ "PHD",
+  )))
+
+person$EDUC <- factor(person$EDUC, levels = c("NHSE",
+                                              "HSE",
+                                              "FE",
+                                              "MA",
+                                              "PHD"))
+
+# Now, I'll output a sample of this data frame into the next module's
+# Data folder, so we can use it when practicing
+# Descriptive Statistics and Graphics:
+# saveRDS(person, "../3 Descriptive Statistics and Graphics/Data/person.rds")
+
+person[sample(nrow(person), 100), ]
 
 ## ---- end_weigh
