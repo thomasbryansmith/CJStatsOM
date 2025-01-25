@@ -2,7 +2,7 @@ Descriptive Statistics and Graphics
 ================
 Thomas Bryan Smith[^1]
 
-# 1. Loading Packages and Reading Data
+## 1. Loading Packages and Reading Data
 
 This code chunk imports the data, and creates some objects used in the
 following. Packages are not loaded until the relevant code chunk.
@@ -266,7 +266,7 @@ colnames(df)[which(colnames(df) %in% c("V3014",
     ## 10  2000 001   2000365150 30-34 Female HSE       8       0          1
     ## # ℹ 45,766 more rows
 
-# 2. Measures of Central Tendency and Dispersion
+## 2. Measures of Central Tendency and Dispersion
 
 - There are multiple ways which you can go about generating
   **descriptive statistics** using **base R**.
@@ -669,7 +669,7 @@ mean(df$YIH[(as.numeric(df$AGE) >= 4) &       # TRUE if >= "35-39 y/o"
 
     ## [1] 9.489191
 
-# 3. Frequency Tables
+## 3. Frequency Tables
 
 - The base R function `table()` is a fairly comprehensive means of
   generating frequency tables. Like the **central tendency** and
@@ -953,7 +953,7 @@ myxtab %>%
     ## 10 25-29 MA        1    4       9.09    0.448
     ## # ℹ 21 more rows
 
-# 4. Base R Graph Functions
+## 4. Base R Graph Functions
 
 - **Histograms** can be generated using the `hist()` function on the
   vector containing the data for a single variable. It is helpful to be
@@ -1392,7 +1392,7 @@ abline(lm(YIH ~ as.numeric(AGE), df),
 
 ![](3_Descriptive_Statistics_and_Graphics_files/figure-gfm/basic-graphs-25.png)<!-- -->
 
-# 5. 3-Dimensional Scatter Plots
+## 5. 3-Dimensional Scatter Plots
 
 - To showcase some of the more niche R packages, try exploring the
   following functions which are able to generate renderings of
@@ -1448,7 +1448,7 @@ scatter3d(as.numeric(df$AGE),
 
     ## Loading required namespace: mgcv
 
-# 6. ggplot2
+## 6. ggplot2
 
 - The package **ggplot2** offers a flexible set of functions which
   produce graphics that are polished and aesthetically pleasing when
@@ -1627,7 +1627,7 @@ ggplot(sample_n(df, 100), aes(x = as.numeric(AGE), y = YIH)) +
   geom_text(aes(label = SEX))
 ```
 
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## Warning: Removed 2 rows containing missing values or values outside the scale range
     ## (`geom_text()`).
 
 ![](3_Descriptive_Statistics_and_Graphics_files/figure-gfm/ggplot2-12.png)<!-- -->
