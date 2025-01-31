@@ -45,7 +45,7 @@ head(person)
 # Take note of the variables:
 ## ID: Person ID                                (numeric)
 ## IDHH: Household ID                           (numeric)
-## PER_WGR: Person Weight                       (numeric)
+## PER_WGT: Person Weight                       (numeric)
 ## VIOLENT: Violent victimization count         (numeric, count, ratio)
 ## VLNT_WGT: Violent victimization weight       (numeric)
 ## NONVIOLENT: Nonviolent victimization count   (numeric, count, ratio)

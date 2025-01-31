@@ -177,7 +177,7 @@ head(person)
 # Take note of the variables:
 ## ID: Person ID                                (numeric)
 ## IDHH: Household ID                           (numeric)
-## PER_WGR: Person Weight                       (numeric)
+## PER_WGT: Person Weight                       (numeric)
 ## VIOLENT: Violent victimization count         (numeric, count, ratio)
 ## VLNT_WGT: Violent victimization weight       (numeric)
 ## NONVIOLENT: Nonviolent victimization count   (numeric, count, ratio)
@@ -273,40 +273,26 @@ person %>%
 
 # 2 Estimating Linear Models
 
-- In this section we use the **base R** function `lm()` to estimate
-  **ordinary least squares** (OLS) regression models using the Italy
-  immigration example data you have been using in the previous
-  workshops.
+- In this section we use the function `lm()` to estimate **ordinary
+  least squares** (OLS) regression models using R’s USArrest data.
 
   - Variables in these data include:
-    - `sex`: Male and Female, this subset of the data does not vary.
-      Without variability it is of no interest (and technically not a
-      variable).
-    - `age`: Age in years.
-    - `arr_it`: The year respondent arrived in Italy.
-    - `educ`: The respondent’s level of education ranging from Primary
-      to University.
-    - `income`: Respondent monthly income in Euros.
+    - `Murder`: murder arrests (per 100,000).
+    - `Assault`: assault arrests (per 100,000).
+    - `Rape`: rape arrests (per 100,000).
+    - `UrbanPop`: percent of population living in an urban area.
 
 - However, for the exercises at the end of each section you will be
   using a subset of variables drawn from the second wave of the National
   Crime Victimization Survey (NCVS).
 
   - Variables in these data include:
-    - `aggression`: Composite variable ranging from 4 to 16, assessed
-      using the Multidimensional Personality Questionnaire
-    - `stress`: Composite variable ranging from 4 to 7, assessed with a
-      battery of questions concerning respondent’s relationships with
-      peers and family.
-    - `support`: Composite variable ranging from 4 to 7, assessed with a
-      battery of questions concerning respondent’s relationships with
-      peers and family.
-    - `age`: Age in years.
-    - `gender`: Male and Female, this is a factor vector in the data
-      where Male = 1 and Female = 2.
-    - `religiosity`: Likert scale asking respondents
-      `How religious are you?` with responses ranging from `Not at all`
-      = 1 to `Very` = 4.
+    - `VIOLENT`: violent victimization count (numeric, count, ratio).
+    - `NONVIOLENT`: non-violent victimization count (numeric, count,
+      ratio).
+    - `YIH`: years in household (numeric, years, interval).
+    - `EDUC`: education level (factor, ordinal).
+    - `SEX`: male v. female (factor, nominal).
 
 - When using the `lm()` function you should typically assign the results
   to an object. **Linear model objects** are extremely versatile in that
@@ -790,10 +776,10 @@ summary(bsm)
     ## Nonparametric Bootstrap Confidence Intervals with the Percentile Method
     ## 
     ##                Estimate 95% CI Lower 95% CI Upper p-value  
-    ## ACME             0.0654      -0.0104         0.15   0.090 .
-    ## ADE             -0.0445      -0.0972         0.00   0.056 .
-    ## Total Effect     0.0209      -0.0751         0.11   0.632  
-    ## Prop. Mediated   3.1262     -12.3438        23.70   0.542  
+    ## ACME             0.0654      -0.0126         0.15   0.108  
+    ## ADE             -0.0445      -0.1007         0.00   0.058 .
+    ## Total Effect     0.0209      -0.0723         0.10   0.656  
+    ## Prop. Mediated   3.1262     -16.6025        13.25   0.568  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
@@ -1107,8 +1093,8 @@ vif(m1)
   bivariate regression with the `labs()` function as a way of assigning
   labels to the plot.
 - For additional details on the functionality of **base R** and
-  **ggplot2** graphical functions see the materials from **Workshop 2:
-  Descriptive Statistics and Graphics**.
+  **ggplot2** graphical functions see the materials from **3 Descriptive
+  Statistics and Graphics**.
 
 ``` r
 # Bivariate regression results
@@ -1489,7 +1475,7 @@ durbinWatsonTest(m1)
 ```
 
     ##  lag Autocorrelation D-W Statistic p-value
-    ##    1       0.1064333      1.769422    0.46
+    ##    1       0.1064333      1.769422   0.436
     ##  Alternative hypothesis: rho != 0
 
 ``` r
