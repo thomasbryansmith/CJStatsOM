@@ -646,12 +646,8 @@ plt$plane3d(fit)
 plot3d(df$AGE, df$EDUC, df$YIH, col = "red", size = 3)
 
 ## Rcmdr
-scatter3d(as.numeric(df$AGE), 
-          as.numeric(df$EDUC), 
-          df$YIH,
-          formula = y ~ x + z,
-          subset = subset,
-          data = data)
+scatter3d(YIH ~ as.numeric(AGE) + as.numeric(EDUC),
+          data = df)
 
 ## ---- end_3d-plots
 ############################################################################## #

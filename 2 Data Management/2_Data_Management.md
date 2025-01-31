@@ -1,13 +1,22 @@
 Data Management
 ================
-Thomas Bryan Smith[^1]
+Thomas Bryan Smith[^1] <br/>
+January 31, 2025
 
-## 1. Setup Environment and Import Data
+- [1 Setup Environment and Import
+  Data](#1-setup-environment-and-import-data)
+- [2 Indexing and Recoding](#2-indexing-and-recoding)
+- [3 Data Manipulation](#3-data-manipulation)
+- [4 Putting it all together](#4-putting-it-all-together)
+
+# 1 Setup Environment and Import Data
 
 ``` r
 # As always, we want to start by loading in the package(s) we plan on using:
 library(tidyverse)
 ```
+
+    ## Warning: package 'tidyverse' was built under R version 4.3.3
 
     ## Warning: package 'ggplot2' was built under R version 4.3.3
 
@@ -112,7 +121,7 @@ head(incident)
     ## 5  2000 001   2000638577 2000186105 Attempted/completed robber…  3165.         1
     ## 6  2000 001   2000345273 2000402319 Attempted/completed theft    1913.         1
 
-## 2. Indexing and Recoding
+# 2 Indexing and Recoding
 
 ``` r
 # First, let's extract a variable to work with:
@@ -395,7 +404,7 @@ colnames(household)[which(colnames(household) %in%
                             c("V2026", "V2125"))] <- c("INCOME", "LAND_USE")
 ```
 
-## 3. Data Manipulation
+# 3 Data Manipulation
 
 ``` r
 # While indexing is an important skill, there are more convenient ways
@@ -764,7 +773,7 @@ df %>% head()
     ## 5 2000167846 001   2         2000361146 College    
     ## 6 2000733306 001   1         2000879996 High school
 
-## 4. Putting it all together
+# 4 Putting it all together
 
 ``` r
 # In this final section, I am going to quickly demonstrate how you
@@ -867,15 +876,15 @@ incident <- incident %>%
     ## # ℹ 2 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>
 
 ``` r
-# Calculate the adjusted victimization adjustment factor (weights)
+# Calculate the victimization adjustment factor (weights)
 # per the NCVS codebook. Multiply this adjustment factor by
-# the violent victimization variable (VIOLENT) to create a
-# weighted violent victimization (VLNT_WGT) variable:
+# the respective victimization variable (VIOLENT and NONVIOLENT)
+# to create a weighted violent victimization variable ([N]VLNT_WGT):
 (person <- person %>%
    mutate(ADJINC_WT_V = if_else(!is.na(WGTVIC_V), WGTVIC_V / WGTPER, 0),
-          VLNT_WGT_V = VIOLENT * ADJINC_WT_V,
+          VLNT_WGT = VIOLENT * ADJINC_WT_V,
           ADJINC_WT_NV = if_else(!is.na(WGTVIC_NV), WGTVIC_NV / WGTPER, 0),
-          NVLNT_WGT_V = NONVIOLENT * ADJINC_WT_NV))
+          NVLNT_WGT = NONVIOLENT * ADJINC_WT_NV))
 ```
 
     ## # A tibble: 45,776 × 17
@@ -893,7 +902,7 @@ incident <- incident %>%
     ## 10  2000 001   2000365150 20005… 30-34 Fema… High…  1101.     8      NA        0
     ## # ℹ 45,766 more rows
     ## # ℹ 6 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>, ADJINC_WT_V <dbl>,
-    ## #   VLNT_WGT_V <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT_V <dbl>
+    ## #   VLNT_WGT <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT <dbl>
 
 ``` r
 # Now we can use the VLNT_WGT to calculate a weighted average
@@ -937,7 +946,7 @@ incident <- incident %>%
     ## 10  2000 001   2000365150 20005… 30-34 Fema… High…  1101.     8      NA        0
     ## # ℹ 45,766 more rows
     ## # ℹ 7 more variables: WGTVIC_NV <dbl>, NONVIOLENT <dbl>, ADJINC_WT_V <dbl>,
-    ## #   VLNT_WGT_V <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT_V <dbl>, EDUC <chr>
+    ## #   VLNT_WGT <dbl>, ADJINC_WT_NV <dbl>, NVLNT_WGT <dbl>, EDUC <chr>
 
 ``` r
 person$EDUC <- factor(person$EDUC, levels = c("NHSE",

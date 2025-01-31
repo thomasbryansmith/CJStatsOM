@@ -1,8 +1,18 @@
 Descriptive Statistics and Graphics
 ================
-Thomas Bryan Smith[^1]
+Thomas Bryan Smith[^1] <br/>
+January 31, 2025
 
-## 1. Loading Packages and Reading Data
+- [1 Loading Packages and Reading
+  Data](#1-loading-packages-and-reading-data)
+- [2 Measures of Central Tendency and
+  Dispersion](#2-measures-of-central-tendency-and-dispersion)
+- [3 Frequency Tables](#3-frequency-tables)
+- [4 Base R Graph Functions](#4-base-r-graph-functions)
+- [5 3-Dimensional Scatter Plots](#5-3-dimensional-scatter-plots)
+- [6 ggplot2](#6-ggplot2)
+
+# 1 Loading Packages and Reading Data
 
 This code chunk imports the data, and creates some objects used in the
 following. Packages are not loaded until the relevant code chunk.
@@ -16,6 +26,8 @@ following. Packages are not loaded until the relevant code chunk.
 # Load relevant packages:
 library(tidyverse)
 ```
+
+    ## Warning: package 'tidyverse' was built under R version 4.3.3
 
     ## Warning: package 'ggplot2' was built under R version 4.3.3
 
@@ -266,7 +278,7 @@ colnames(df)[which(colnames(df) %in% c("V3014",
     ## 10  2000 001   2000365150 30-34 Female HSE       8       0          1
     ## # ℹ 45,766 more rows
 
-## 2. Measures of Central Tendency and Dispersion
+# 2 Measures of Central Tendency and Dispersion
 
 - There are multiple ways which you can go about generating
   **descriptive statistics** using **base R**.
@@ -669,7 +681,7 @@ mean(df$YIH[(as.numeric(df$AGE) >= 4) &       # TRUE if >= "35-39 y/o"
 
     ## [1] 9.489191
 
-## 3. Frequency Tables
+# 3 Frequency Tables
 
 - The base R function `table()` is a fairly comprehensive means of
   generating frequency tables. Like the **central tendency** and
@@ -953,7 +965,7 @@ myxtab %>%
     ## 10 25-29 MA        1    4       9.09    0.448
     ## # ℹ 21 more rows
 
-## 4. Base R Graph Functions
+# 4 Base R Graph Functions
 
 - **Histograms** can be generated using the `hist()` function on the
   vector containing the data for a single variable. It is helpful to be
@@ -1392,7 +1404,7 @@ abline(lm(YIH ~ as.numeric(AGE), df),
 
 ![](3_Descriptive_Statistics_and_Graphics_files/figure-gfm/basic-graphs-25.png)<!-- -->
 
-## 5. 3-Dimensional Scatter Plots
+# 5 3-Dimensional Scatter Plots
 
 - To showcase some of the more niche R packages, try exploring the
   following functions which are able to generate renderings of
@@ -1438,17 +1450,13 @@ plt$plane3d(fit)
 plot3d(df$AGE, df$EDUC, df$YIH, col = "red", size = 3)
 
 ## Rcmdr
-scatter3d(as.numeric(df$AGE), 
-          as.numeric(df$EDUC), 
-          df$YIH,
-          formula = y ~ x + z,
-          subset = subset,
-          data = data)
+scatter3d(YIH ~ as.numeric(AGE) + as.numeric(EDUC),
+          data = df)
 ```
 
     ## Loading required namespace: mgcv
 
-## 6. ggplot2
+# 6 ggplot2
 
 - The package **ggplot2** offers a flexible set of functions which
   produce graphics that are polished and aesthetically pleasing when
@@ -1626,9 +1634,6 @@ ggplot(df, aes(x = as.numeric(YEAR), y = YIH)) +
 ggplot(sample_n(df, 100), aes(x = as.numeric(AGE), y = YIH)) +
   geom_text(aes(label = SEX))
 ```
-
-    ## Warning: Removed 2 rows containing missing values or values outside the scale range
-    ## (`geom_text()`).
 
 ![](3_Descriptive_Statistics_and_Graphics_files/figure-gfm/ggplot2-12.png)<!-- -->
 

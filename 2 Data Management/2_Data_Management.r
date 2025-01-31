@@ -398,15 +398,15 @@ incident <- incident %>%
    mutate(VIOLENT = if_else(is.na(VIOLENT), 0, VIOLENT),
           NONVIOLENT = if_else(is.na(NONVIOLENT), 0, NONVIOLENT)))
 
-# Calculate the adjusted victimization adjustment factor (weights)
+# Calculate the victimization adjustment factor (weights)
 # per the NCVS codebook. Multiply this adjustment factor by
-# the violent victimization variable (VIOLENT) to create a
-# weighted violent victimization (VLNT_WGT) variable:
+# the respective victimization variable (VIOLENT and NONVIOLENT)
+# to create a weighted violent victimization variable ([N]VLNT_WGT):
 (person <- person %>%
    mutate(ADJINC_WT_V = if_else(!is.na(WGTVIC_V), WGTVIC_V / WGTPER, 0),
-          VLNT_WGT_V = VIOLENT * ADJINC_WT_V,
+          VLNT_WGT = VIOLENT * ADJINC_WT_V,
           ADJINC_WT_NV = if_else(!is.na(WGTVIC_NV), WGTVIC_NV / WGTPER, 0),
-          NVLNT_WGT_V = NONVIOLENT * ADJINC_WT_NV))
+          NVLNT_WGT = NONVIOLENT * ADJINC_WT_NV))
 
 # Now we can use the VLNT_WGT to calculate a weighted average
 # of the victimization count, or to ensure that

@@ -1,8 +1,18 @@
 Introducing R
 ================
-Thomas Bryan Smith[^1]
+Thomas Bryan Smith[^1] <br/>
+January 31, 2025
 
-## 1. Working Directories and Libraries
+- [1 Working Directories and
+  Libraries](#1-working-directories-and-libraries)
+- [2 Objects](#2-objects)
+- [3 Vectors and Matrices](#3-vectors-and-matrices)
+- [4 Logical Operations](#4-logical-operations)
+- [5 Performing Simple Statistical
+  Functions](#5-performing-simple-statistical-functions)
+- [6 Creating Custom Functions](#6-creating-custom-functions)
+
+# 1 Working Directories and Libraries
 
 ``` r
 # Find the current working directory (cwd):
@@ -44,6 +54,8 @@ getwd()
 library(tidyverse)
 ```
 
+    ## Warning: package 'tidyverse' was built under R version 4.3.3
+
     ## Warning: package 'ggplot2' was built under R version 4.3.3
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -57,7 +69,7 @@ library(tidyverse)
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
-## 2. Objects
+# 2 Objects
 
 ``` r
 # R is an inherently mathematical language, and operates in a way that resembles
@@ -160,7 +172,7 @@ ls()
 rm(list = ls())
 ```
 
-## 3. Vectors and Matrices
+# 3 Vectors and Matrices
 
 ``` r
 # To manually creating a numeric vector, we use the
@@ -467,7 +479,7 @@ library(feather)
 write_feather(df, "my_data.feather")
 ```
 
-## 4. Logical Operations
+# 4 Logical Operations
 
 ``` r
 # Logical operations are useful for identifying specific case(s) in your data.
@@ -793,7 +805,7 @@ head(df)
     ## California    9.0     276       91 40.6
     ## Colorado      7.9     204       78 38.7
 
-## 5. Performing Simple Statistical Functions
+# 5 Performing Simple Statistical Functions
 
 ``` r
 # Say we're interested in calculating descriptive statistics for murder.
@@ -973,7 +985,7 @@ mean(is.na(murder)) * 100
 
     ## [1] 9.090909
 
-## 6. Creating Custom Functions
+# 6 Creating Custom Functions
 
 ``` r
 # R is a language that is based on functions. mean(), sd(), min(), and every
@@ -989,7 +1001,7 @@ mean
 
     ## function (x, ...) 
     ## UseMethod("mean")
-    ## <bytecode: 0x000001fb9ef52af0>
+    ## <bytecode: 0x000002496c52fbf0>
     ## <environment: namespace:base>
 
 ``` r
@@ -1044,6 +1056,6 @@ mymean
     ##   result <- x / y
     ##   return(result)
     ## }
-    ## <bytecode: 0x000001fba2934028>
+    ## <bytecode: 0x00000249769795b8>
 
 [^1]: University of Mississippi, <tbsmit10@olemiss.edu>
