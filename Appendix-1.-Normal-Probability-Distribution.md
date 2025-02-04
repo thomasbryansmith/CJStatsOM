@@ -54,10 +54,8 @@ same as the *probability distribution*.
 
 ``` r
 ggplot(USArrests, aes(x = Assault)) +
-  geom_histogram()
+  geom_histogram(bins = 30)
 ```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](Appendix-1.-Normal-Probability-Distribution_files/figure-gfm/freq-1.png)<!-- -->
 
