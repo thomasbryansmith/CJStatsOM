@@ -67,7 +67,7 @@ The normal probability distribution is typically denoted with the
 following expression:
 
 ``` math
- \Nu (\mu , \sigma^{2}) 
+ N(\mu , \sigma^{2}) 
 ```
 
 Quite literally denoting a normal distribution with a with a given mean,
