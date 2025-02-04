@@ -63,18 +63,27 @@ ggplot(USArrests, aes(x = Assault)) +
 
 # 3 The **normal** *probability distribution*
 
-The normal probability distribution is typically denoted with the
+The normal probability distribution is typically indicated with the
 following expression:
 
 ``` math
  N(\mu , \sigma^{2}) 
 ```
 
-Quite literally denoting a normal distribution with a with a given mean,
-$`\mu`$, and standard deviation, $`\sigma`$.
+Quite literally just saying that you are working with a normal
+distribution with a given mean, $`\mu`$, and standard deviation,
+$`\sigma`$.
+
+We could visually generate this probability distribution using the
+following probability density function:
 
 ``` math
  f(x) = \frac{1}{\sigma \sqrt{2 \pi}}e^{\frac{1}{2}(\frac{x - \mu}{\sigma})^{2}} 
 ```
+
+This can be used to generate a normal distribution that represents all
+theoretically possible values of a given normally distributed continuous
+variable (where your histogram is beholden to the observations that
+*actually exist*).
 
 [^1]: University of Mississippi, <tbsmit10@olemiss.edu>
