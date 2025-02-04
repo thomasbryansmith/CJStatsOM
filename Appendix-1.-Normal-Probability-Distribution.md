@@ -63,6 +63,8 @@ ggplot(USArrests, aes(x = Assault)) +
 
 # 3 The **normal** *probability distribution*
 
-\$ f(x) = e<sup>{()</sup>{2}} \$
+``` math
+ f(x) = \frac{1}{\sigma \sqrt{2 \pi}}e^{\frac{1}{2}(\frac{x - \mu}{\sigma})^{2}} 
+```
 
 [^1]: University of Mississippi, <tbsmit10@olemiss.edu>
