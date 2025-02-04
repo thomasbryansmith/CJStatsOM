@@ -63,6 +63,16 @@ ggplot(USArrests, aes(x = Assault)) +
 
 # 3 The **normal** *probability distribution*
 
+The normal probability distribution is typically denoted with the
+following expression:
+
+``` math
+ \Nu (\mu , \sigma^{2}) 
+```
+
+Quite literally denoting a normal distribution with a with a given mean,
+$`\mu`$, and standard deviation, $`\sigma`$.
+
 ``` math
  f(x) = \frac{1}{\sigma \sqrt{2 \pi}}e^{\frac{1}{2}(\frac{x - \mu}{\sigma})^{2}} 
 ```
