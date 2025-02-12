@@ -28,7 +28,7 @@ library(Rcmdr)
 library(scales)
 
 # Import the data
-df <- readRDS("./Data/person.rds")
+df <- readRDS("../Data/person.rds")
 
 # Check your data
 df %>% head()

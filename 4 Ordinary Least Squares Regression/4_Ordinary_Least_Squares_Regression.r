@@ -37,7 +37,7 @@ head(USArrests)
 # ============================================================================ #
 
 # Load the NCVS dataset we have been working with:
-person <- readRDS("./Data/person.rds")
+person <- readRDS("../Data/person.rds")
 
 # Check your data:
 head(person)

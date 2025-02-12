@@ -32,9 +32,9 @@ library(tidyverse)
 # reach the multilevel modelling module
 
 # Read in the data:
-household <- readRDS("./Data/household.rds")
-person <- readRDS("./Data/person.rds")
-incident <- readRDS("./Data/incident.rds")
+household <- readRDS("./Raw_Data/household.rds")
+person <- readRDS("./Raw_Data/person.rds")
+incident <- readRDS("./Raw_Data/incident.rds")
 
 # Variables
 ## YEAR: Year of Interview
@@ -439,8 +439,25 @@ person$EDUC <- factor(person$EDUC, levels = c("NHSE",
                                               "MA",
                                               "PHD"))
 
+# Finally, lets just rename some of the other variables we want to work with.
+## First, we look at the data frame. We can see that AGE is the 5th variable,
+## and SEX is the 6th variable.
+person
+
+## If you have too many variables to check manually, you can run this code:
+which(colnames(person) == "V3014")  # AGE
+which(colnames(person) == "V3018")  # SEX
+
+## Now you index colnames(person) by 5 and 6:
+colnames(person)[5:6]
+
+## Then overwrite those variable names with simpler names:
+colnames(person)[5:6] <- c("AGE", "SEX")
+
 # Now, I'll output a sample of this data frame into the next module's Data
 # folder, so we can use it when practicing Descriptive Statistics and Graphics:
-# saveRDS(person, "../3 Descriptive Statistics and Graphics/Data/person.rds")
+saveRDS(incident, "../Data/incident.rds")
+saveRDS(person, "../Data/person.rds")
+saveRDS(household, "../Data/household.rds")
 
 ## ---- end_weigh
