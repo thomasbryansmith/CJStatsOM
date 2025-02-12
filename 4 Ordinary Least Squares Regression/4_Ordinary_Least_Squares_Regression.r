@@ -1,4 +1,4 @@
-# Title: Introducing R
+# Title: Ordinary Least Squares Regression
 # Subtitle: CJ 702 Advanced Criminal Justice Statistics
 # Author: Thomas Bryan Smith <tbsmit10@olemiss.edu>
 # GitHub: thomasbryansmith/CJStatsOM
@@ -149,7 +149,7 @@ summary(m1 <- lm(Murder ~ Assault + UrbanPop, data = USArrests))
 # ============================================================================ #
 
 # In the above example, we are estimating the change in the Assault
-# rate per 100,000 people for each interval increase (1 percentahe point)
+# rate per 100,000 people for each interval increase (1 percentage point)
 # in the Urban Population Percentage.
 
 # As you'll recall, the UrbanPop variable is a percentage.
