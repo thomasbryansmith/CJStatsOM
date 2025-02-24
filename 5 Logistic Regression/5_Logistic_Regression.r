@@ -15,6 +15,7 @@
 library(tidyverse)
 library(car)
 library(ggpubr)
+library(Hmisc)
 
 # ============================================================================ #
 
@@ -373,7 +374,7 @@ predict(m2) %>% head()
 
 ### Analysis of Deviance:
 anova(m2)
-#### You can use this to compare model fit:
+#### You can use this to compare model fit (Likelihood Ratio Test):
 anova(m1, m2)
 
 ### You can print your variance-covariance matrix:
@@ -382,4 +383,136 @@ vcov(m2)
 ### The 'car' package will let you find the variance inflation factor (VIF):
 vif(m2)
 
-# ---- end-visualization
+## ---- end-visualization
+############################################################################## #
+###                 5. ESTIMATING CUMULATIVE LOGIT MODELS                   ====
+############################################################################## #
+## ---- ordered-logit-models
+
+# Cumulative logit models can be understood as models that try to predict the
+# distribution of complex crosstabs. If, for example, we wanted to examine
+# the effect of victimization (1 = experienced victimization), and sex
+# (2 = Female; 1 = Male). We would start with a crosstab of all 3 variables:
+ftable(xtabs(~ EDUC + VIC + SEX, data = person))
+
+# For obvious reasons, this only works with binary independent variables
+# (or categorical variables with relatively few categories). If we have a
+# continuous variable we wanted to introduce into the mix, we could instead
+# plot the distribution across all four variables with box plots:
+ggplot(person, aes(x = EDUC, y = log(YIH))) +
+  geom_jitter(alpha = 0.2) +
+  geom_boxplot(size = 0.75, alpha = 0.5) +
+  facet_grid(SEX ~ VIC) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+
+# To run a ordered / cumulative / ordinal logit, you need to import
+# the MASS package:
+library(MASS)
+
+# Otherwise, it follows much the same syntax as the OLS and Logit models:
+summary(m3 <- polr(EDUC ~ VIC + SEX + YIH, data = person, Hess = TRUE))
+
+# Unlike these other models, the polr() function does not caclulate p-values
+# for you (remember: p-values are not 'native' to the 'regression' process
+# whereby a line/plane of best fit is fit to probability distributions).
+
+# You will need to use this code to caclulate your own:
+## Extract model coefficients:
+(ctable <- coef(summary(m3)))
+## Caclulate and store p values:
+p <- pnorm(abs(ctable[, "t value"]), lower.tail = FALSE) * 2
+## Generate significance stars:
+s <- ifelse(p <= 0.001, "***",
+        ifelse(p <= 0.01, "**",
+          ifelse(p <= 0.05, "**", "n.s.")))
+## Add p-values to the model coefficient data frame:
+(ctable <- cbind(round(ctable, 3), `Pr(>|t|)` = round(p, 3), `sig` = s))
+
+# We can also extract the confidence intervals how we would a logit:
+confint(m3)
+
+# Then, if we want to present our results as odds ratios, we can apply
+# the following code to generate the OR and the 95% CI:
+exp(cbind(OR = coef(m3), confint(m3)))
+
+# Testing the proportional odds assumption
+## The following code generates the log-linear parameter estimates
+## for each independent variable as if we had regressed each level
+## of the dependent on each independent variable individually:
+sf <- function(y) {
+  c('Y>=1' = qlogis(mean(y >= 1)),
+    'Y>=2' = qlogis(mean(y >= 2)),
+    'Y>=3' = qlogis(mean(y >= 3)),
+    'Y>=4' = qlogis(mean(y >= 4)),
+    'Y>=5' = qlogis(mean(y >= 5)))
+}
+
+(s <- with(person, summary(as.numeric(EDUC) ~ VIC + SEX + log(YIH), fun = sf)))
+
+## Compare with the results of the following logit models:
+glm(I(as.numeric(EDUC) >= 2) ~ VIC, family = "binomial", data = person)
+glm(I(as.numeric(EDUC) >= 3) ~ VIC, family = "binomial", data = person)
+glm(I(as.numeric(EDUC) >= 4) ~ VIC, family = "binomial", data = person)
+glm(I(as.numeric(EDUC) >= 5) ~ VIC, family = "binomial", data = person)
+
+## Now, let's see if each "step up" through the dependent variable (for
+## each independent variable) is approximately equidistant. Ideally,
+## we want the values here to all be approximately equal.
+s[, 4] - s[, 3]
+s[, 5] - s[, 4]
+s[, 6] - s[, 5]
+
+## For convenience, it is easier to generate a plot that visualizes the results:
+plot(s,
+     which = 1:5,
+     pch = 1:5,
+     xlab = 'logit',
+     main = ' ',
+     xlim = range(s[, 3:6]))
+
+## However, for peer-reviewed publication, I would recommend performing the
+## Brant-Wald Test to make sure that the proportional odds assumption holds:
+library(brant)
+brant(m3)
+### A low p-value for a given independent variable implies that, for that
+### variable, the proportional odds assumption does not hold. So, according
+### to the results, only the "Victimization" variable satisfies the assumption.
+### This COULD imply that the cumulative logit model is a bad 'fit' for the
+### "Education Level" dependent variable. However, if you look at our previous
+### figure, the points on the line are evenly dispersed along the x-asis.
+
+### One important thing to remember about p-values is that they rely on the
+### standard error, which is 'penalized' by the sample size. For particularly
+### large samples - like this one (N = 41,742) - the test might be overpowered
+### and thus able to identify very small deviations that would, for smaller
+### sample sizes, not "flag" as significant (this ALSO applies to the p-values
+### of regression coefficients!)
+
+### If you are worried about your sample size, you could perform the same
+### analysis on a subset of your data to check the "sensitivity" of the test
+### to your sample size. Here we are going to perform the same analysis on a
+### random set of observations (5%; N = 2,077):
+sub_person <- person[sample(nrow(person), size = floor(nrow(person) * 0.05)), ]
+
+summary(m4 <- polr(EDUC ~ VIC + SEX + YIH,
+                   data = sub_person,
+                   Hess = TRUE))
+
+brant(m4)
+
+### As you can see, the significance test maintains that the parallel odds
+### assumption does NOT hold. This implies that the relationships between
+### "Sex" and "Years in Household" are likely NOT the same for each response
+### category of the dependent variable (Education Level).
+
+### In other words, we need "random slopes" by group (this could be achieved
+### using multi-level or "random effects" models that are introduced later in
+### this course!)
+
+## ---- end-ordered-logit-models
+############################################################################## #
+###                6. ESTIMATING MULTINOMIAL LOGIT MODELS                   ====
+############################################################################## #
+## ---- multinomial-logit-models
+
+## ---- end-multinomial-logit-models
