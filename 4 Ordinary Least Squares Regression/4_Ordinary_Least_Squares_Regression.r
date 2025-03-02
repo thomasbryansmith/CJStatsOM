@@ -215,11 +215,11 @@ summary(lm(Assault ~ UrbanPop + I(UrbanPop^2),
            data = USArrests))
 
 ## Cubic:
-summary(lm(income ~ UrbanPop + I(UrbanPop^2) + I(UrbanPop^3),
+summary(lm(Assault ~ UrbanPop + I(UrbanPop^2) + I(UrbanPop^3),
            data = USArrests))
 
 ## Quartic:
-summary(lm(income ~ UrbanPop + I(UrbanPop^2) + I(UrbanPop^3) + I(UrbanPop^4),
+summary(lm(Assault ~ UrbanPop + I(UrbanPop^2) + I(UrbanPop^3) + I(UrbanPop^4),
            data = USArrests))
 
 ### But we will get more into this when and if we cover non-linear models.
