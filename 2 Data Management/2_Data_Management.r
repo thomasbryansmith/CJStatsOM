@@ -242,7 +242,7 @@ household %>%
 
 # Selecting (extracting specific variables)
 household %>%
-  select(YEAR,
+  dplyr::select(YEAR,
          LAND_USE)
 
 # The tidyverse pipe operator, %>%, can then be used to chain any
@@ -317,7 +317,7 @@ household %>%
 
 # Long (each row is a person):
 (df <- person %>%
-   select(IDPER, IDHH, YEARQ, V3020))
+   dplyr::select(IDPER, IDHH, YEARQ, V3020))
 
 # Wide (each row is a household):
 (df <- df %>%
@@ -341,7 +341,7 @@ household %>%
 # Compare the end result to our original subset:
 ## Start
 person %>%
-  select(IDPER, IDHH, YEARQ, V3020) %>%
+  dplyr::select(IDPER, IDHH, YEARQ, V3020) %>%
   head()
 ## End
 df %>% head()

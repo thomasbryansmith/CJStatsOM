@@ -515,4 +515,48 @@ brant(m4)
 ############################################################################## #
 ## ---- multinomial-logit-models
 
+# Load the nnet package (which includes multinomial logit models!)
+library(nnet)
+
+# Prepare the data:
+## 1. Filter to the victimized population.
+## 2. Select the variables you plan on using.
+## 3. Assign to a new object, mn_pers.
+mn_pers <- person %>%
+  filter(!is.na(VIC_LOC)) %>%
+  dplyr::select(VIC_LOC, VIOLENT, AGE, SEX, EDUC, YIH)
+
+# Prepare the dependent variable (optional):
+## Manually set the levels of the variable
+## so that "other" is the reference category.
+mn_pers$VIC_LOC <- factor(mn_pers$VIC_LOC, levels = c("Home",
+                                                      "Communal Area",
+                                                      "Open Area",
+                                                      "Other"))
+
+# Fit the multinomial logit model:
+summary(m5 <- multinom(VIC_LOC ~ VIOLENT +
+                                 as.numeric(AGE) +
+                                 SEX +
+                                 as.numeric(EDUC) +
+                                 YIH, data = mn_pers))
+
+
+# Output the results to a format that is easily introduced
+# into a manuscript document or presentation:
+## Load the broom and kableExtra libraries
+library(broom)
+library(kableExtra)
+
+## Convert the model results into a data frame format:
+tidy(m5, conf.int = TRUE)
+
+## Data frame format with relative risk ratios:
+tidy(m5, conf.int = TRUE, exponentiate = TRUE)
+
+## Output the data frame to a kable (html table):
+tidy(m5, conf.int = TRUE, exponentiate = TRUE) %>%
+  kable() %>%
+  kable_styling("basic", full_width = FALSE)
+
 ## ---- end-multinomial-logit-models
