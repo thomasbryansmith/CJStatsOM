@@ -16,6 +16,7 @@ library(tidyverse)
 library(car)
 library(ggpubr)
 library(Hmisc)
+library(reshape2)
 
 # ============================================================================ #
 
@@ -524,7 +525,10 @@ library(nnet)
 ## 3. Assign to a new object, mn_pers.
 mn_pers <- person %>%
   filter(!is.na(VIC_LOC)) %>%
-  dplyr::select(VIC_LOC, VIOLENT, AGE, SEX, EDUC, YIH)
+  dplyr::select(VIC_LOC, VIOLENT, AGE, SEX, EDUC, YIH) %>%
+  mutate(AGE = as.numeric(AGE),
+         EDUC = as.numeric(EDUC),
+         SEX = as.numeric(SEX))
 
 # Prepare the dependent variable (optional):
 ## Manually set the levels of the variable
@@ -536,9 +540,9 @@ mn_pers$VIC_LOC <- factor(mn_pers$VIC_LOC, levels = c("Home",
 
 # Fit the multinomial logit model:
 summary(m5 <- multinom(VIC_LOC ~ VIOLENT +
-                                 as.numeric(AGE) +
+                                 AGE +
                                  SEX +
-                                 as.numeric(EDUC) +
+                                 EDUC +
                                  YIH, data = mn_pers))
 
 
@@ -558,5 +562,26 @@ tidy(m5, conf.int = TRUE, exponentiate = TRUE)
 tidy(m5, conf.int = TRUE, exponentiate = TRUE) %>%
   kable() %>%
   kable_styling("basic", full_width = FALSE)
+
+## Predicted Probability of Victimization Location for each Year in Home (Visualization):
+gdat <- data.frame(VIC_LOC = rep(c("Communal Area", "Open Area", "Other"), each = 57),
+                   YIH = rep(c(1:57), 3),
+                   VIOLENT = mean(mn_pers$VIOLENT),
+                   AGE = mean(mn_pers$AGE),
+                   SEX = mean(mn_pers$SEX),
+                   EDUC = mean(mn_pers$EDUC))
+
+gdat <- cbind(gdat, predict(m5,
+                            newdata = gdat,
+                            type = "probs",
+                            se = TRUE))
+
+by(gdat[, c("Communal Area", "Open Area", "Other")], gdat$YIH, colMeans)
+
+# Visualize the relationship:
+gdat <- melt(gdat[, c("Communal Area", "Open Area", "Other", "YIH")], id.vars = c("YIH"), value.name = "probability")
+
+ggplot(gdat, aes(x = YIH, y = probability, colour = variable)) +
+  geom_line(linewidth = 1)
 
 ## ---- end-multinomial-logit-models
